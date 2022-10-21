@@ -17,12 +17,12 @@ export class AppComponent {
   public hiddenMovie: Movie;
   public isHardMode: Boolean;
   public totalMoviesCount: number;
-  public categoryPlayed: string;
+  public categoryPlayed: string = "";
 
   constructor(private movieService: MovieService){}
 
   ngOnInit() {
-    this.getMovie(2);
+    this.getMovies();
   }
 
   public getMovie(movieId: number): void {
@@ -52,7 +52,14 @@ export class AppComponent {
   }
 
   public onClickCategory(category: string): void{
+    this.getMovie(Math.round(Math.random() * this.totalMoviesCount))
     this.categoryPlayed = category
+      var homeScreen = document.getElementById("home-screen");
+      if (this.categoryPlayed !== "" || this.categoryPlayed !== null) {
+        homeScreen.style.display = "none";
+      } else {
+        homeScreen.style.display = "block";
+      }
     console.log(this.categoryPlayed)
   }
 
