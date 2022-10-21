@@ -16,6 +16,8 @@ export class AppComponent {
   public revealedMovie: Movie;
   public hiddenMovie: Movie;
   public isHardMode: Boolean;
+  public totalMoviesCount: number;
+  public categoryPlayed: string;
 
   constructor(private movieService: MovieService){}
 
@@ -37,8 +39,21 @@ export class AppComponent {
   }
 
   public getMovies() {
-
+    this.movieService.getMovies().subscribe(
+      (response: Movie[]) => {
+        this.movies = response;
+        this.totalMoviesCount = this.movies.length;
+        console.log(this.totalMoviesCount)
+      },
+      (error: HttpErrorResponse) => {
+        alert(error.message);
+      }
+    )
   }
 
+  public onClickCategory(category: string): void{
+    this.categoryPlayed = category
+    console.log(this.categoryPlayed)
+  }
 
 }
