@@ -1,10 +1,10 @@
 export interface Movie {
-    ID: BigInt;
+    ID: number;
     ORIGINAL_TITLE: string;
     OVERVIEW: string;
-    POPULARITY: Number;
+    POPULARITY: number;
     RELEASE_DATE: Date;
-    REVENUE: BigInt;
+    REVENUE: number;
     RUNTIME: number;
     TAGLINE: string;
     TITLE: string;

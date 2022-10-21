@@ -16,7 +16,7 @@ export class MovieService {
     return this.http.get<Movie[]>(`${this.apiServerUrl}/movie/all`)
   }
 
-  public getMovie(movieId: BigInt): Observable<Movie> {
+  public getMovie(movieId: number): Observable<Movie> {
     return this.http.get<Movie>(`${this.apiServerUrl}/movie/find/${movieId}`)
   }
 }
