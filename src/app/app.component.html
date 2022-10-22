@@ -59,9 +59,111 @@
   </div>
 </div>
 <div *ngIf="categoryPlayed !== ''">
-  <div [ngSwitch]="categoryPlayed">
+  <div class="row d-flex justify-content-center">Score: {{ score }}</div>
+  <div class="row d-flex justify-content-center" [ngSwitch]="categoryPlayed">
+    <div *ngSwitchCase="'vote_AVERAGE'">
+      <div>
+        &#8220;{{ revealedMovie.original_TITLE }}&#8220; has
+        {{ revealedMovie.vote_AVERAGE }} Vote Average
+      </div>
+      <div class="d-grid gap-2 col-6 mx-auto my-2 px-2">
+        <button
+          (click)="onHigherClicked()"
+          type="button"
+          class="btn btn-outline-success mr-2"
+        >
+          Higher
+        </button>
+        <button
+          (click)="onLowerClicked()"
+          type="button"
+          class="btn btn-outline-danger ml-2"
+        >
+          Lower
+        </button>
+      </div>
+      <div>
+        &#8220;{{ hiddenMovie.original_TITLE }}&#8220; has Higher/Lower Vote
+        Average?
+      </div>
+    </div>
+    <div *ngSwitchCase="'popularity'">
+      <div>
+        &#8220;{{ revealedMovie.original_TITLE }}&#8220; has
+        {{ revealedMovie.popularity }} Popularity
+      </div>
+      <div class="d-grid gap-2 col-6 mx-auto">
+        <button
+          (click)="onHigherClicked()"
+          type="button"
+          class="btn btn-outline-success"
+        >
+          Higher
+        </button>
+        <button
+          (click)="onLowerClicked()"
+          type="button"
+          class="btn btn-outline-danger"
+        >
+          Lower
+        </button>
+      </div>
+      <div>
+        &#8220;{{ hiddenMovie.original_TITLE }}&#8220; has Higher/Lower
+        {{ hiddenMovie.popularity }} Popularity?
+      </div>
+    </div>
+    <div *ngSwitchCase="'runtime'">
+      <div>
+        &#8220;{{ revealedMovie.original_TITLE }}&#8220; has
+        {{ revealedMovie.runtime }} Run Time
+      </div>
+      <div class="d-grid gap-2 col-6 mx-auto">
+        <button
+          (click)="onHigherClicked()"
+          type="button"
+          class="btn btn-outline-success"
+        >
+          Higher
+        </button>
+        <button
+          (click)="onLowerClicked()"
+          type="button"
+          class="btn btn-outline-danger"
+        >
+          Lower
+        </button>
+      </div>
+      <div>
+        &#8220;{{ hiddenMovie.original_TITLE }}&#8220; has Higher/Lower
+        {{ hiddenMovie.runtime }} Run Time?
+      </div>
+    </div>
     <div *ngSwitchCase="'revenue'">
-      {{ initialMovie.title }} + {{ initialMovie.revenue }}
+      <div>
+        &#8220;{{ revealedMovie.original_TITLE }}&#8220; has
+        {{ revealedMovie.revenue }} Revenue
+      </div>
+      <div class="d-grid gap-2 col-6 mx-auto">
+        <button
+          (click)="onHigherClicked()"
+          type="button"
+          class="btn btn-outline-success"
+        >
+          Higher
+        </button>
+        <button
+          (click)="onLowerClicked()"
+          type="button"
+          class="btn btn-outline-danger"
+        >
+          Lower
+        </button>
+      </div>
+      <div>
+        &#8220;{{ hiddenMovie.original_TITLE }}&#8220; has Higher/Lower
+        {{ hiddenMovie.revenue }} Revenue?
+      </div>
     </div>
     <div *ngSwitchDefault>output2</div>
   </div>
