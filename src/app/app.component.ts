@@ -15,7 +15,7 @@ export class AppComponent {
   public hiddenMovie: Movie;
   public isHardMode: Boolean;
   public totalMoviesCount: number;
-  public categoryPlayed: string = '';
+  public categoryPlayed: any = '';
   public currentScore: number = 0;
   public categories: any[] = [
     'vote_AVERAGE',
@@ -55,7 +55,6 @@ export class AppComponent {
       (response: Movie[]) => {
         this.movies = response;
         this.totalMoviesCount = this.movies.length;
-        console.log(this.totalMoviesCount);
       },
       (error: HttpErrorResponse) => {
         alert(error.message);
@@ -81,98 +80,59 @@ export class AppComponent {
     }
   }
 
-  // TODO: mõtle siia mingi parem lahendus, palun
-  // for (let i = 0; i < this.categories.length; i++) {
-  //   if(this.categories[i] === this.categoryPlayed) {
-  //     this.revealedMovie.categoryPlayed
-  //   }
-  // } ["vote_AVERAGE", "popularity", "runtime", "revenue"];
-
   public onHigherClicked(): void {
-    switch (this.categoryPlayed) {
-      case 'vote_AVERAGE':
-        if (this.revealedMovie.vote_AVERAGE < this.hiddenMovie.vote_AVERAGE) {
+    for (let i = 0; i < this.categories.length; i++) {
+      if (this.categories[i] === this.categoryPlayed) {
+        if (
+          this.revealedMovie[
+            this.categoryPlayed as keyof typeof this.revealedMovie
+          ] <
+          this.hiddenMovie[
+            this.categoryPlayed as keyof typeof this.revealedMovie
+          ]
+        ) {
           this.correctAnswerClicked();
         } else {
           this.wrongAnswerClicked();
           alert(
-            `Game ended with a score of: ${this.currentScore}\n${this.hiddenMovie.original_TITLE} has vote average of: ${this.hiddenMovie.vote_AVERAGE}`
-          );
-        }
-        break;
-      case 'popularity':
-        if (this.revealedMovie.popularity < this.hiddenMovie.popularity) {
-          this.correctAnswerClicked();
-        } else {
-          alert(
             `Game ended with a score of: ${this.currentScore}\n${
               this.hiddenMovie.original_TITLE
-            } had vote average of: ${
-              Math.round(this.hiddenMovie.popularity * 100) / 100
+            } has vote average of: ${
+              this.hiddenMovie[
+                this.categoryPlayed as keyof typeof this.revealedMovie
+              ]
             }`
           );
         }
-        break;
-      case 'runtime':
-        if (this.revealedMovie.runtime < this.hiddenMovie.runtime) {
-          this.correctAnswerClicked();
-        } else {
-          alert(
-            `Game ended with a score of: ${this.currentScore}\n${this.hiddenMovie.original_TITLE} has vote average of: ${this.hiddenMovie.runtime}`
-          );
-        }
-        break;
-      case 'revenue':
-        if (this.revealedMovie.revenue < this.hiddenMovie.revenue) {
-          this.correctAnswerClicked();
-        } else {
-          alert(
-            `Game ended with a score of: ${this.currentScore}\n${this.hiddenMovie.original_TITLE} has vote average of: ${this.hiddenMovie.revenue}`
-          );
-        }
-        break;
+      }
     }
   }
 
   public onLowerClicked(): void {
-    switch (this.categoryPlayed) {
-      case 'vote_AVERAGE':
-        if (this.revealedMovie.vote_AVERAGE > this.hiddenMovie.vote_AVERAGE) {
+    for (let i = 0; i < this.categories.length; i++) {
+      if (this.categories[i] === this.categoryPlayed) {
+        if (
+          this.revealedMovie[
+            this.categoryPlayed as keyof typeof this.revealedMovie
+          ] >
+          this.hiddenMovie[
+            this.categoryPlayed as keyof typeof this.revealedMovie
+          ]
+        ) {
           this.correctAnswerClicked();
         } else {
           this.wrongAnswerClicked();
           alert(
-            `Game ended with a score of: ${this.currentScore}\n${this.hiddenMovie.original_TITLE} has vote average of: ${this.hiddenMovie.vote_AVERAGE}`
+            `Game ended with a score of: ${this.currentScore}\n${
+              this.hiddenMovie.original_TITLE
+            } has vote average of: ${
+              this.hiddenMovie[
+                this.categoryPlayed as keyof typeof this.revealedMovie
+              ]
+            }`
           );
         }
-        break;
-      case 'popularity':
-        if (this.revealedMovie.popularity > this.hiddenMovie.popularity) {
-          this.correctAnswerClicked();
-        } else {
-          alert(
-            `Game ended with a score of: ${this.currentScore}\n${this.hiddenMovie.original_TITLE} has vote average of: ${this.hiddenMovie.popularity}`
-          );
-        }
-        break;
-      case 'runtime':
-        if (this.revealedMovie.runtime > this.hiddenMovie.runtime) {
-          this.correctAnswerClicked();
-        } else {
-          alert(
-            `Game ended with a score of: ${this.currentScore}\n${this.hiddenMovie.original_TITLE} has vote average of: ${this.hiddenMovie.runtime}`
-          );
-        }
-        break;
-      case 'revenue':
-        if (this.revealedMovie.revenue > this.hiddenMovie.revenue) {
-          this.correctAnswerClicked();
-        } else {
-          alert(
-            `Game ended with a score of: ${this.currentScore}\n${this.hiddenMovie.original_TITLE} has vote average of: ${this.hiddenMovie.revenue}`
-          );
-        }
-        break;
+      }
     }
   }
 
