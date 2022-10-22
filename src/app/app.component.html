@@ -1,4 +1,8 @@
 <div id="home-screen" class="container lg padding-20px-tb">
+  <div class="col my-3">
+    <h5>Hard mode high score: {{ hardModeScore }}</h5>
+    <h5>Easy mode high score: {{ easyModeScore }}</h5>
+  </div>
   <div class="row ml-3">
     <label class="switch">
       <input type="checkbox" />
@@ -58,8 +62,9 @@
     </div>
   </div>
 </div>
-<div *ngIf="categoryPlayed !== ''">
-  <div class="row d-flex justify-content-center">Score: {{ score }}</div>
+
+<div id="game-screen" *ngIf="categoryPlayed !== ''">
+  <div class="row d-flex justify-content-center">Score: {{ currentScore }}</div>
   <div class="row d-flex justify-content-center" [ngSwitch]="categoryPlayed">
     <div *ngSwitchCase="'vote_AVERAGE'">
       <div>
@@ -90,7 +95,7 @@
     <div *ngSwitchCase="'popularity'">
       <div>
         &#8220;{{ revealedMovie.original_TITLE }}&#8220; has
-        {{ revealedMovie.popularity }} Popularity
+        {{ math.round(revealedMovie.popularity * 100) / 100 }} Popularity
       </div>
       <div class="d-grid gap-2 col-6 mx-auto">
         <button
@@ -110,7 +115,7 @@
       </div>
       <div>
         &#8220;{{ hiddenMovie.original_TITLE }}&#8220; has Higher/Lower
-        {{ hiddenMovie.popularity }} Popularity?
+        Popularity?
       </div>
     </div>
     <div *ngSwitchCase="'runtime'">
