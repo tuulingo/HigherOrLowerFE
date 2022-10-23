@@ -115,6 +115,7 @@
       </div>
       <div>
         &#8220;{{ hiddenMovie.original_TITLE }}&#8220; has Higher/Lower
+        {{ math.round(hiddenMovie.popularity * 100) / 100 }} Popularity
         Popularity?
       </div>
     </div>
@@ -147,7 +148,7 @@
     <div *ngSwitchCase="'revenue'">
       <div>
         &#8220;{{ revealedMovie.original_TITLE }}&#8220; has
-        {{ revealedMovie.revenue }} Revenue
+        {{ revealedMovie.revenue }}$ Revenue
       </div>
       <div class="d-grid gap-2 col-6 mx-auto">
         <button
@@ -167,7 +168,7 @@
       </div>
       <div>
         &#8220;{{ hiddenMovie.original_TITLE }}&#8220; has Higher/Lower
-        {{ hiddenMovie.revenue }} Revenue?
+        {{ hiddenMovie.revenue }}$ Revenue?
       </div>
     </div>
     <div *ngSwitchDefault>output2</div>

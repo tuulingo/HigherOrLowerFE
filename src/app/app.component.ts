@@ -73,9 +73,6 @@ export class AppComponent {
     this.hiddenMovie = undefined;
     this.getMovie(Math.round(Math.random() * this.totalMoviesCount));
     this.getMovie(Math.round(Math.random() * this.totalMoviesCount));
-    // while (this.revealedMovie === this.hiddenMovie){
-    //   this.getMovie(Math.round(Math.random() * this.totalMoviesCount))
-    // }
     this.categoryPlayed = category;
     var homeScreen = document.getElementById('home-screen');
     var gameScreen = document.getElementById('game-screen');
@@ -171,10 +168,43 @@ export class AppComponent {
           }
           break;
         case 'popularity':
+          while (
+            !this.between(
+              this.hiddenMovie.popularity,
+              this.revealedMovie.popularity - 5,
+              this.revealedMovie.popularity + 5
+            )
+          ) {
+            await this.getMovie(
+              Math.round(Math.random() * this.totalMoviesCount)
+            );
+          }
           break;
         case 'runtime':
+          while (
+            !this.between(
+              this.hiddenMovie.runtime,
+              this.revealedMovie.runtime - 15,
+              this.revealedMovie.runtime + 15
+            )
+          ) {
+            await this.getMovie(
+              Math.round(Math.random() * this.totalMoviesCount)
+            );
+          }
           break;
         case 'revenue':
+          while (
+            !this.between(
+              this.hiddenMovie.revenue,
+              this.revealedMovie.revenue - 15000000,
+              this.revealedMovie.revenue + 15000000
+            )
+          ) {
+            await this.getMovie(
+              Math.round(Math.random() * this.totalMoviesCount)
+            );
+          }
           break;
       }
     }
