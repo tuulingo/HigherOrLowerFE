@@ -2,6 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { Movie } from './movie';
 import { MovieService } from './movie.service';
+import { lastValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -13,7 +14,7 @@ export class AppComponent {
   public movies: Movie[];
   public revealedMovie: Movie;
   public hiddenMovie: Movie;
-  public isHardMode: Boolean;
+  public isHardMode: Boolean = false;
   public totalMoviesCount: number;
   public categoryPlayed: any = '';
   public currentScore: number = 0;
@@ -34,32 +35,21 @@ export class AppComponent {
     this.getMovies();
   }
 
-  public getMovie(movieId: number): void {
-    this.movieService.getMovie(movieId).subscribe(
-      (response: Movie) => {
-        if (this.revealedMovie === null || this.revealedMovie === undefined) {
-          this.revealedMovie = response;
-        } else {
-          this.hiddenMovie = response;
-        }
-      },
-      (error: HttpErrorResponse) => {
-        console.log(error.message);
-        alert(error.message);
-      }
-    );
+  public async getMovie(movieId: number): Promise<void> {
+    const movie = await this.movieService.getMovie(movieId);
+    const response = await lastValueFrom(movie);
+    if (this.revealedMovie === null || this.revealedMovie === undefined) {
+      this.revealedMovie = response;
+    } else {
+      this.hiddenMovie = response;
+    }
   }
 
-  public getMovies() {
-    this.movieService.getMovies().subscribe(
-      (response: Movie[]) => {
-        this.movies = response;
-        this.totalMoviesCount = this.movies.length;
-      },
-      (error: HttpErrorResponse) => {
-        alert(error.message);
-      }
-    );
+  public async getMovies() {
+    const movies = await this.movieService.getMovies();
+    const response = await lastValueFrom(movies);
+    this.movies = response;
+    this.totalMoviesCount = this.movies.length;
   }
 
   public onClickCategory(category: string): void {
@@ -73,7 +63,16 @@ export class AppComponent {
     this.categoryPlayed = category;
     var homeScreen = document.getElementById('home-screen');
     var gameScreen = document.getElementById('game-screen');
+    var hardModeSlider = document.getElementById(
+      'hardModeSlider'
+    ) as HTMLInputElement;
     if (this.categoryPlayed !== '' || this.categoryPlayed !== null) {
+      if (hardModeSlider.checked) {
+        this.isHardMode = true;
+      } else {
+        this.isHardMode = false;
+      }
+
       this.currentScore = 0;
       homeScreen.style.display = 'none';
       gameScreen.style.display = 'block';
@@ -125,7 +124,7 @@ export class AppComponent {
           alert(
             `Game ended with a score of: ${this.currentScore}\n${
               this.hiddenMovie.original_TITLE
-            } has vote average of: ${
+            } has value of: ${
               this.hiddenMovie[
                 this.categoryPlayed as keyof typeof this.revealedMovie
               ]
@@ -136,15 +135,43 @@ export class AppComponent {
     }
   }
 
-  public correctAnswerClicked(): void {
+  public async correctAnswerClicked(): Promise<void> {
     this.currentScore++;
     this.revealedMovie = this.hiddenMovie;
-    this.getMovie(Math.round(Math.random() * this.totalMoviesCount));
+    await this.getMovie(Math.round(Math.random() * this.totalMoviesCount));
+    if (this.isHardMode) {
+      switch (this.categoryPlayed) {
+        case 'vote_AVERAGE':
+          while (
+            !this.between(
+              this.hiddenMovie.vote_AVERAGE,
+              this.revealedMovie.vote_AVERAGE - 0.1,
+              this.revealedMovie.vote_AVERAGE + 0.1
+            ) ||
+            this.hiddenMovie.vote_AVERAGE === this.revealedMovie.vote_AVERAGE
+          ) {
+            await this.getMovie(
+              Math.round(Math.random() * this.totalMoviesCount)
+            );
+          }
+          break;
+        case 'popularity':
+          break;
+        case 'runtime':
+          break;
+        case 'revenue':
+          break;
+      }
+    }
   }
 
   public wrongAnswerClicked(): void {
     this.gameOver = true;
-    this.easyModeScore = this.currentScore;
+    if (this.isHardMode) {
+      this.hardModeScore = this.currentScore;
+    } else {
+      this.easyModeScore = this.currentScore;
+    }
     var gameScreen = document.getElementById('game-screen');
     var homeScreen = document.getElementById('home-screen');
     if (this.gameOver) {
@@ -152,5 +179,9 @@ export class AppComponent {
       gameScreen.style.display = 'none';
     }
     this.gameOver = false;
+  }
+
+  public between(categoryValue: number, min: number, max: number): boolean {
+    return min <= categoryValue && categoryValue <= max;
   }
 }
