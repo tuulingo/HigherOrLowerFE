@@ -43,6 +43,22 @@ export class AppComponent {
     } else {
       this.hiddenMovie = response;
     }
+    for (let i = 0; i < this.categories.length; i++) {
+      if (this.categories[i] === this.categoryPlayed) {
+        while (
+          this.revealedMovie[
+            this.categoryPlayed as keyof typeof this.revealedMovie
+          ] ===
+          this.hiddenMovie[this.categoryPlayed as keyof typeof this.hiddenMovie]
+        ) {
+          const movie = await this.movieService.getMovie(
+            Math.round(Math.random() * this.totalMoviesCount)
+          );
+          const response = await lastValueFrom(movie);
+          this.hiddenMovie = response;
+        }
+      }
+    }
   }
 
   public async getMovies() {
@@ -145,10 +161,9 @@ export class AppComponent {
           while (
             !this.between(
               this.hiddenMovie.vote_AVERAGE,
-              this.revealedMovie.vote_AVERAGE - 0.1,
-              this.revealedMovie.vote_AVERAGE + 0.1
-            ) ||
-            this.hiddenMovie.vote_AVERAGE === this.revealedMovie.vote_AVERAGE
+              this.revealedMovie.vote_AVERAGE - 0.5,
+              this.revealedMovie.vote_AVERAGE + 0.5
+            )
           ) {
             await this.getMovie(
               Math.round(Math.random() * this.totalMoviesCount)
