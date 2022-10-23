@@ -17,6 +17,11 @@ body {
   vertical-align: middle;
 }
 
+.btn {
+  
+  display:flex;
+}
+
 .categories-card.card {
   
   border: none;
