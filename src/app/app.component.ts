@@ -109,7 +109,7 @@ export class AppComponent {
           alert(
             `Game ended with a score of: ${this.currentScore}\n${
               this.hiddenMovie.original_TITLE
-            } has vote average of: ${
+            } has value of: ${
               this.hiddenMovie[
                 this.categoryPlayed as keyof typeof this.revealedMovie
               ]
@@ -212,9 +212,10 @@ export class AppComponent {
 
   public wrongAnswerClicked(): void {
     this.gameOver = true;
-    if (this.isHardMode) {
+    if (this.isHardMode && this.hardModeScore < this.currentScore) {
       this.hardModeScore = this.currentScore;
-    } else {
+    }
+    if (!this.isHardMode && this.easyModeScore < this.currentScore) {
       this.easyModeScore = this.currentScore;
     }
     var gameScreen = document.getElementById('game-screen');
