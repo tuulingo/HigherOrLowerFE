@@ -36,6 +36,7 @@ export class AppComponent {
   }
 
   public async getMovie(movieId: number): Promise<void> {
+    // can't put inside for loop - endless while loop
     const movie = await this.movieService.getMovie(movieId);
     const response = await lastValueFrom(movie);
     if (this.revealedMovie === null || this.revealedMovie === undefined) {
@@ -49,7 +50,10 @@ export class AppComponent {
           this.revealedMovie[
             this.categoryPlayed as keyof typeof this.revealedMovie
           ] ===
-          this.hiddenMovie[this.categoryPlayed as keyof typeof this.hiddenMovie]
+            this.hiddenMovie[
+              this.categoryPlayed as keyof typeof this.hiddenMovie
+            ] ||
+          this.hiddenMovie.revenue === 0
         ) {
           const movie = await this.movieService.getMovie(
             Math.round(Math.random() * this.totalMoviesCount)

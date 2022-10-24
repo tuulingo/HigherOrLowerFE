@@ -88,8 +88,8 @@
         </button>
       </div>
       <div>
-        &#8220;{{ hiddenMovie.original_TITLE }}&#8220; has Higher/Lower
-        {{ hiddenMovie.vote_AVERAGE }} Vote Average?
+        &#8220;{{ hiddenMovie.original_TITLE }}&#8220; has Higher/Lower Vote
+        Average?
       </div>
     </div>
     <div *ngSwitchCase="'popularity'">
@@ -115,7 +115,6 @@
       </div>
       <div>
         &#8220;{{ hiddenMovie.original_TITLE }}&#8220; has Higher/Lower
-        {{ math.round(hiddenMovie.popularity * 100) / 100 }} Popularity
         Popularity?
       </div>
     </div>
@@ -141,8 +140,8 @@
         </button>
       </div>
       <div>
-        &#8220;{{ hiddenMovie.original_TITLE }}&#8220; has Higher/Lower
-        {{ hiddenMovie.runtime }} Run Time?
+        &#8220;{{ hiddenMovie.original_TITLE }}&#8220; has Higher/Lower Run
+        Time?
       </div>
     </div>
     <div *ngSwitchCase="'revenue'">
@@ -167,8 +166,8 @@
         </button>
       </div>
       <div>
-        &#8220;{{ hiddenMovie.original_TITLE }}&#8220; has Higher/Lower
-        {{ hiddenMovie.revenue }}$ Revenue?
+        &#8220;{{ hiddenMovie.original_TITLE }}&#8220; has Higher/Lower $
+        Revenue?
       </div>
     </div>
     <div *ngSwitchDefault>output2</div>
