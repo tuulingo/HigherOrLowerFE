@@ -89,10 +89,11 @@ export class AppComponent {
       } else {
         this.isHardMode = false;
       }
-
-      this.currentScore = 0;
       homeScreen.style.display = 'none';
-      gameScreen.style.display = 'block';
+      if (gameScreen !== null) {
+        gameScreen.style.display = 'block';
+      }
+      this.currentScore = 0;
     }
   }
 

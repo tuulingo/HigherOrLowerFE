@@ -65,7 +65,11 @@
 
 <div id="game-screen" *ngIf="categoryPlayed !== ''">
   <div class="row d-flex justify-content-center">Score: {{ currentScore }}</div>
-  <div class="row d-flex justify-content-center" [ngSwitch]="categoryPlayed">
+  <div
+    class="row d-flex justify-content-center"
+    *ngIf="hiddenMovie !== undefined"
+    [ngSwitch]="categoryPlayed"
+  >
     <div *ngSwitchCase="'vote_AVERAGE'">
       <div>
         &#8220;{{ revealedMovie.original_TITLE }}&#8220; has
